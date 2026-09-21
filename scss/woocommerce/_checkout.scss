@@ -1,0 +1,334 @@
+// ==========================================================================
+// WooCommerce / Checkout (購入手続き)
+//   ※ 共通の見出し・お知らせ・金額の色は _cart-extra.scss 側で指定
+// ==========================================================================
+
+// チェックアウトは入力しやすいよう、少し狭めの1カラムにする
+.woocommerce-checkout {
+    h1:not(.site-title),
+    .woocommerce {
+        max-width: 720px;
+    }
+
+    // ----------------------------------------------------------------------
+    // 小見出し(請求先情報の詳細・ご注文など)
+    // ----------------------------------------------------------------------
+    h3 {
+        margin: $space-lg 0 $space-md;
+        color: $color-brown;
+        font-family: $font-en, $font-jp;
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+    }
+
+    // クーポン入力
+    form.checkout_coupon {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 0 0 $space-lg;
+
+        p {
+            margin: 0;
+        }
+
+        .form-row-first {
+            flex: 1 1 200px;
+        }
+
+        .button {
+            box-sizing: border-box;
+            min-height: 48px;
+            padding: 0 20px;
+            border: 1px solid $color-brown;
+            background: none;
+            color: $color-brown;
+            font-size: $font-size-small;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background-color: $color-brown;
+                color: $color-white;
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 入力フォーム
+    // ----------------------------------------------------------------------
+    .form-row {
+        margin: 0 0 $space-md;
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: $color-gray-mid;
+            font-size: $font-size-small;
+            font-family: $font-en, $font-jp;
+            letter-spacing: 0.04em;
+        }
+
+        // 必須マーク
+        .required {
+            color: $color-brown;
+            text-decoration: none;
+        }
+
+        input.input-text,
+        textarea,
+        select {
+            box-sizing: border-box;
+            width: 100%;
+            min-height: 48px;
+            padding: 12px 14px;
+            border: 1px solid $color-border;
+            border-radius: 0;
+            background-color: $color-white;
+            color: $color-black;
+            font-size: $font-size-base;
+            font-family: $font-en, $font-jp;
+
+            &:focus {
+                outline: none;
+                border-color: $color-brown;
+                box-shadow: 0 0 0 2px rgba($color-brown, 0.2);
+            }
+        }
+
+        textarea {
+            min-height: 110px;
+            line-height: 1.8;
+        }
+    }
+
+    // 「別の住所へ配送しますか?」のチェックボックス
+    #ship-to-different-address {
+        margin: $space-lg 0 $space-md;
+
+        label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+            color: $color-brown;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: $color-brown;
+        }
+    }
+
+    // 国・都道府県のプルダウン(select2)
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+        box-sizing: border-box;
+        height: 48px;
+        border: 1px solid $color-border;
+        border-radius: 0;
+        background-color: $color-white;
+
+        .select2-selection__rendered {
+            padding: 0 14px;
+            color: $color-black;
+            font-size: $font-size-base;
+            line-height: 46px;
+        }
+
+        .select2-selection__arrow {
+            top: 0;
+            right: 6px;
+            height: 46px;
+        }
+    }
+
+    .select2-container--default.select2-container--focus .select2-selection--single,
+    .select2-container--default.select2-container--open .select2-selection--single {
+        border-color: $color-brown;
+    }
+
+    .select2-dropdown {
+        border-color: $color-brown;
+        border-radius: 0;
+    }
+
+    .select2-container--default .select2-results__option--highlighted[aria-selected],
+    .select2-container--default .select2-results__option--highlighted[data-selected] {
+        background-color: $color-brown;
+    }
+
+    // ----------------------------------------------------------------------
+    // ご注文内容
+    // ----------------------------------------------------------------------
+    #order_review_heading {
+        margin-top: $space-xl;
+    }
+
+    #order_review {
+        padding: $space-lg;
+        background-color: $color-cream;
+    }
+
+    table.shop_table {
+        width: 100%;
+        margin: 0 0 $space-md;
+        border: none;
+        border-collapse: collapse;
+
+        th,
+        td {
+            padding: 12px 0;
+            border: none;
+            border-bottom: 1px solid $color-border;
+            background: none;
+            font-weight: normal;
+            text-align: left;
+            vertical-align: baseline;
+        }
+
+        thead th {
+            color: $color-gray-mid;
+            font-size: $font-size-small;
+        }
+
+        // 金額の列は右寄せ
+        .product-total,
+        tfoot td,
+        thead th:last-child {
+            text-align: right;
+        }
+
+        tfoot th {
+            color: $color-gray-mid;
+            font-size: $font-size-small;
+        }
+
+        .product-quantity {
+            color: $color-gray-mid;
+            font-size: $font-size-small;
+            font-weight: normal;
+        }
+
+        // 配送方法(黒丸を消す)
+        #shipping_method {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .order-total {
+            th {
+                color: $color-black;
+                font-size: $font-size-base;
+            }
+
+            td {
+                font-size: $font-size-large;
+                font-weight: 500;
+            }
+
+            th,
+            td {
+                border-bottom: none;
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // お支払い方法
+    // ----------------------------------------------------------------------
+    #payment {
+        background: none;
+
+        ul.wc_payment_methods {
+            margin: 0 0 $space-md;
+            padding: 0;
+            list-style: none;
+
+            li {
+                margin: 0 0 $space-sm;
+            }
+
+            label {
+                margin: 0;
+                color: $color-black;
+                font-size: $font-size-base;
+                font-weight: 500;
+                cursor: pointer;
+            }
+        }
+
+        .payment_box {
+            margin-top: $space-sm;
+            padding: $space-md;
+            background-color: $color-white;
+            border: 1px solid $color-border;
+            font-size: $font-size-small;
+            line-height: 1.8;
+
+            p {
+                margin: 0 0 $space-sm;
+            }
+
+            a {
+                color: $color-brown;
+            }
+        }
+    }
+
+    // 個人情報の取り扱い文言
+    .woocommerce-privacy-policy-text p {
+        margin: 0 0 $space-md;
+        color: $color-gray-mid;
+        font-size: $font-size-small;
+        line-height: 1.8;
+
+        a {
+            color: $color-brown;
+        }
+    }
+
+    // 「注文する」ボタン
+    #place_order {
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 0;
+        background-color: $color-brown;
+        color: $color-white;
+        font-size: $font-size-base;
+        font-family: $font-en, $font-jp;
+        letter-spacing: 0.08em;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background-color: $color-accent;
+        }
+    }
+}
+
+// --------------------------------------------------------------------------
+// スマホ対応
+// --------------------------------------------------------------------------
+@media (max-width: $breakpoint-md) {
+    .woocommerce-checkout {
+        #order_review {
+            padding: $space-md;
+        }
+
+        #order_review_heading {
+            margin-top: $space-lg;
+        }
+    }
+}

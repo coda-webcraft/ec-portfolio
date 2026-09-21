@@ -1,0 +1,20 @@
+/*
+Theme Name: EC Portfolio Theme
+Theme URI:
+Author: ogawa
+Description: ハンドメイドアクセサリーEC用オリジナルテーマ
+Version: 1.0
+*/
+
+@import 'foundation/variable';
+@import 'layout/header';
+@import 'layout/footer';
+@import 'woocommerce/shop';
+@import 'woocommerce/single-product';
+@import 'woocommerce/cart';
+@import 'woocommerce/cart-extra';
+@import 'woocommerce/checkout';
+@import 'woocommerce/home';
+@import 'woocommerce/thankyou';
+@import 'layout/not-found';
+@import 'woocommerce/account';

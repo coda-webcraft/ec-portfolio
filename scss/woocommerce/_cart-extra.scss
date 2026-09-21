@@ -1,0 +1,323 @@
+// ==========================================================================
+// WooCommerce / Cart 仕上げ + カート・チェックアウト共通の枠
+//   ※ 既存の _cart.scss(テーブルの横スクロール対応など)はそのまま残し、
+//     style.scss で `@import 'woocommerce/cart';` の次にこのファイルを読み込む
+// ==========================================================================
+
+// --------------------------------------------------------------------------
+// 共通: ページ見出し・コンテンツ幅・お知らせ・金額の色
+// --------------------------------------------------------------------------
+.woocommerce-cart,
+.woocommerce-checkout {
+    // ページ見出し(ヘッダーのサイト名 h1 は除く)
+    h1:not(.site-title) {
+        max-width: 1000px;
+        margin: $space-xl auto $space-lg;
+        padding: 0 $space-lg;
+        color: $color-brown;
+        font-family: $font-en, $font-jp;
+        font-size: 28px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-align: center;
+    }
+
+    // コンテンツ本体(ショートコードの外枠)
+    .woocommerce {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 $space-lg $space-xl;
+    }
+
+    // 金額は WooCommerce 標準の紫ではなく、本文色にそろえる
+    // (他の指定に負けないよう .woocommerce の中で、色を直接指定する)
+    .woocommerce .woocommerce-Price-amount,
+    .woocommerce .woocommerce-Price-amount bdi,
+    .woocommerce .amount {
+        color: $color-black;
+    }
+
+    // お知らせ(クーポン適用・エラーなど)
+    .woocommerce-message,
+    .woocommerce-info,
+    .woocommerce-error {
+        word-break: auto-phrase; // ← 追加
+        margin: 0 0 $space-md;
+        padding: $space-md $space-lg;
+        border-left: 3px solid $color-brown;
+        background-color: $color-cream;
+        list-style: none;
+        font-size: $font-size-small;
+        line-height: 1.8;
+
+        a {
+            color: $color-brown;
+        }
+    }
+
+    .woocommerce-error {
+        border-left-color: #b3564a;
+    }
+}
+
+// --------------------------------------------------------------------------
+// カート: クーポン・更新ボタン
+// --------------------------------------------------------------------------
+.woocommerce-cart {
+    table.cart td.actions {
+        padding-top: $space-md;
+
+        .coupon {
+            display: inline-flex;
+            gap: 8px;
+            margin: 0 $space-md 0 0;
+            vertical-align: middle;
+        }
+
+        input#coupon_code {
+            box-sizing: border-box;
+            width: 200px;
+            min-height: 44px;
+            padding: 0 12px;
+            border: 1px solid $color-border;
+            background-color: $color-white;
+            color: $color-black;
+            font-size: $font-size-base;
+            font-family: $font-en, $font-jp;
+        }
+
+        button[name="apply_coupon"],
+        button[name="update_cart"] {
+            box-sizing: border-box;
+            min-height: 44px;
+            padding: 0 20px;
+            border: 1px solid $color-brown;
+            background: none;
+            color: $color-brown;
+            font-size: $font-size-small;
+            font-family: $font-en, $font-jp;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background-color: $color-brown;
+                color: $color-white;
+            }
+
+            &:disabled {
+                opacity: 0.4;
+                cursor: not-allowed;
+
+                &:hover {
+                    background: none;
+                    color: $color-brown;
+                }
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // カートの合計(右寄せのカード)
+    // ----------------------------------------------------------------------
+    .cart-collaterals {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: $space-lg;
+    }
+
+    .cart_totals {
+        float: none;
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 420px;
+        padding: $space-lg;
+        background-color: $color-cream;
+
+        > h2 {
+            margin: 0 0 $space-md;
+            color: $color-brown;
+            font-family: $font-en, $font-jp;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+        }
+
+        // ラベルは左・金額は右の1行ずつ
+        table,
+        tbody {
+            display: block;
+            width: 100%;
+            margin: 0;
+            border: none;
+        }
+
+        tr {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: $space-md;
+            padding: 12px 0;
+            border-bottom: 1px solid $color-border;
+        }
+
+        th,
+        td {
+            display: block;
+            padding: 0;
+            border: none;
+            background: none;
+            font-weight: normal;
+        }
+
+        th {
+            flex-shrink: 0;
+            color: $color-gray-mid;
+            font-size: $font-size-small;
+        }
+
+        td {
+            text-align: right;
+        }
+
+        .order-total {
+            border-bottom: none;
+
+            th {
+                color: $color-black;
+                font-size: $font-size-base;
+            }
+
+            td {
+                font-size: $font-size-large;
+                font-weight: 500;
+            }
+        }
+
+        // 配送方法(「Free shipping」の黒丸を消す)
+        #shipping_method {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .woocommerce-shipping-destination {
+            margin: 4px 0;
+            color: $color-gray-mid;
+            font-size: $font-size-small;
+            line-height: 1.7;
+        }
+
+        .shipping-calculator-button {
+            color: $color-brown;
+            font-size: $font-size-small;
+        }
+    }
+
+    // 「購入手続きに進む」ボタン
+    .wc-proceed-to-checkout {
+        margin-top: $space-md;
+        padding: 0;
+
+        a.checkout-button {
+            display: block;
+            box-sizing: border-box; // 枠からはみ出さないように
+            width: 100%;
+            margin: 0 0 12px;
+            padding: 16px;
+            background-color: $color-brown;
+            color: $color-white;
+            font-size: $font-size-base;
+            font-family: $font-en, $font-jp;
+            letter-spacing: 0.08em;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+
+            &:hover {
+                background-color: $color-accent;
+            }
+        }
+    }
+
+    // カートが空のとき
+    .cart-empty {
+        text-align: center;
+    }
+
+    .return-to-shop {
+        text-align: center;
+
+        .button {
+            display: inline-block;
+            padding: 14px 32px;
+            background-color: $color-brown;
+            color: $color-white;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+
+            &:hover {
+                background-color: $color-accent;
+            }
+        }
+    }
+}
+
+// --------------------------------------------------------------------------
+// スマホ対応
+// --------------------------------------------------------------------------
+@media (max-width: $breakpoint-md) {
+    .woocommerce-cart,
+    .woocommerce-checkout {
+        h1:not(.site-title) {
+            margin: $space-lg auto $space-md;
+            padding: 0 $space-md;
+            font-size: 22px;
+        }
+
+        .woocommerce {
+            padding: 0 $space-md $space-lg;
+        }
+    }
+
+    .woocommerce-cart {
+        // 表が画面より広いときは、ページ全体ではなくこの枠の中だけ横スクロールさせる
+        // (ページ全体が横に広がると、スマホでは画面が縮小表示されてしまう)
+        // (フォーム自体が表の幅に引っ張られて広がらないよう、幅も固定する)
+        .woocommerce-cart-form {
+            display: block;
+            box-sizing: border-box;
+            width: 100%;
+            min-width: 0;
+            max-width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table.cart td.actions {
+            // 横スクロールしても、クーポン欄と更新ボタンは画面内に留める
+            .coupon,
+            button[name="update_cart"] {
+                position: sticky;
+                left: 0;
+            }
+
+            .coupon {
+                display: flex;
+                box-sizing: border-box;
+                width: calc(100vw - #{$space-md * 4});
+                margin: 0 0 $space-sm;
+
+                input#coupon_code {
+                    flex: 1 1 auto;
+                    width: auto;
+                    min-width: 0;
+                }
+            }
+        }
+
+        .cart_totals {
+            max-width: none;
+            padding: $space-md;
+        }
+    }
+}

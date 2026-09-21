@@ -1,0 +1,105 @@
+// ==========================================================================
+// Layout / Footer
+// ==========================================================================
+
+.site-footer {
+    margin-top: $space-xl;
+    padding: $space-xl $space-lg $space-lg;
+    background-color: $color-beige;
+    color: $color-brown;
+    font-family: $font-en, $font-jp;
+
+    // ロゴ / Shop / Info の3カラム
+    &__inner {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr 1fr;
+        gap: $space-xl;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    // ブランド
+    &__logo {
+        margin: 0 0 $space-md;
+        font-size: $font-size-large;
+        font-weight: 500;
+        letter-spacing: $letter-spacing-heading;
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+    }
+
+    &__lead {
+        margin: 0;
+        font-size: $font-size-small;
+        line-height: 2;
+        word-break: auto-phrase;
+    }
+
+    // ナビゲーション
+    &__nav-title {
+        margin: 0 0 $space-md;
+        color: $color-gray-mid;
+        font-size: $font-size-small;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+    }
+
+    &__nav {
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        li + li {
+            margin-top: 12px;
+        }
+
+        a {
+            color: $color-brown;
+            font-size: $font-size-small;
+            text-decoration: none;
+            transition: color 0.2s ease;
+
+            &:hover {
+                color: $color-accent;
+            }
+        }
+    }
+
+    // コピーライト
+    &__copy {
+        max-width: 1200px;
+        margin: $space-xl auto 0;
+        padding-top: $space-md;
+        border-top: 1px solid rgba($color-brown, 0.2);
+        color: $color-gray-mid;
+        font-size: $font-size-small;
+        letter-spacing: $letter-spacing-heading;
+        text-align: center;
+    }
+}
+
+// スマホ対応
+@media (max-width: $breakpoint-md) {
+    .site-footer {
+        padding: $space-lg $space-md;
+
+        &__inner {
+            grid-template-columns: 1fr 1fr;
+            gap: $space-lg $space-md;
+        }
+
+        // ブランドは1行目いっぱいに
+        &__brand {
+            grid-column: 1 / -1;
+        }
+
+        &__copy {
+            margin-top: $space-lg;
+        }
+    }
+}

@@ -1,0 +1,65 @@
+// ==========================================================================
+// Layout / 404 (ページが見つかりません)
+// ==========================================================================
+
+.not-found {
+    &__inner {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 96px $space-lg;
+        text-align: center;
+    }
+
+    &__en {
+        margin: 0 0 $space-sm;
+        color: $color-gray-mid;
+        font-family: $font-en, $font-jp;
+        font-size: $font-size-small;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+    }
+
+    &__title {
+        margin: 0 0 $space-lg;
+        color: $color-brown;
+        font-family: $font-en, $font-jp;
+        font-size: 26px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+    }
+
+    &__text {
+        margin: 0 0 $space-xl;
+        line-height: 2;
+        word-break: auto-phrase;
+    }
+
+    &__actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: $space-md;
+    }
+}
+
+@media (max-width: $breakpoint-md) {
+    .not-found {
+        &__inner {
+            padding: 56px $space-md;
+        }
+
+        &__title {
+            font-size: 22px;
+        }
+
+        &__text {
+            margin-bottom: $space-lg;
+            text-align: left;
+        }
+
+        // ボタンは縦に並べる
+        &__actions {
+            flex-direction: column;
+        }
+    }
+}

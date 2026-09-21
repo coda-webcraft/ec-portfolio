@@ -1,0 +1,229 @@
+// ==========================================================================
+// WooCommerce / Order received (注文完了ページ)
+//   ※ 見出し・幅・表・金額の色などは _cart-extra.scss / _checkout.scss を引き継ぐ
+//     (注文完了ページの body には woocommerce-checkout クラスも付くため)
+// ==========================================================================
+
+.woocommerce-order-received {
+    // ----------------------------------------------------------------------
+    // 「ありがとうございます。ご注文を受け付けました。」
+    // ----------------------------------------------------------------------
+    .woocommerce-thankyou-order-received {
+        margin: 0 0 $space-lg;
+        padding: $space-lg $space-md;
+        background-color: $color-cream;
+        color: $color-brown;
+        font-family: $font-en, $font-jp;
+        font-size: 18px;
+        line-height: 1.8;
+        letter-spacing: 0.06em;
+        text-align: center;
+        word-break: auto-phrase;
+    }
+
+    // 決済に失敗したとき
+    .woocommerce-thankyou-order-failed {
+        margin: 0 0 $space-md;
+        padding: $space-md $space-lg;
+        border-left: 3px solid #b3564a;
+        background-color: $color-cream;
+        font-size: $font-size-small;
+    }
+
+    .woocommerce-thankyou-order-failed-actions {
+        margin: 0 0 $space-lg;
+
+        .button {
+            display: inline-block;
+            margin-right: 8px;
+            padding: 12px 24px;
+            border: 1px solid $color-brown;
+            color: $color-brown;
+            text-decoration: none;
+
+            &:hover {
+                background-color: $color-brown;
+                color: $color-white;
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 注文番号・注文日・メール・合計・お支払い方法(カード風に並べる)
+    // ----------------------------------------------------------------------
+    ul.order_details {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: $space-sm;
+        margin: 0 0 $space-lg;
+        padding: 0;
+        list-style: none;
+
+        li {
+            margin: 0;
+            padding: $space-md;
+            border: 1px solid $color-border;
+            background-color: $color-white;
+            color: $color-gray-mid;
+            font-size: $font-size-small;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+
+            strong {
+                display: block;
+                margin-top: 4px;
+                color: $color-black;
+                font-size: $font-size-base;
+                font-weight: 500;
+            }
+        }
+    }
+
+    // お支払い方法についての補足文
+    .woocommerce-order > p:not(.woocommerce-thankyou-order-received):not(.woocommerce-thankyou-order-failed):not(.thankyou-actions) {
+        margin: 0 0 $space-lg;
+        color: $color-gray-mid;
+        font-size: $font-size-small;
+        line-height: 1.8;
+    }
+
+    // ----------------------------------------------------------------------
+    // 見出し(注文の詳細・請求先住所など)
+    // ----------------------------------------------------------------------
+    .woocommerce-order-details__title,
+    .woocommerce-column__title,
+    .woocommerce-order-downloads__title {
+        margin: $space-lg 0 $space-md;
+        color: $color-brown;
+        font-family: $font-en, $font-jp;
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+    }
+
+    // ----------------------------------------------------------------------
+    // 注文の詳細(表)
+    // ----------------------------------------------------------------------
+    .woocommerce-order-details {
+        table.shop_table {
+            margin-bottom: 0;
+
+            .product-name a {
+                color: $color-brown;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            // バリエーション(号数・カラーなど)
+            .wc-item-meta,
+            dl.variation {
+                margin: 4px 0 0;
+                padding: 0;
+                color: $color-gray-mid;
+                font-size: $font-size-small;
+                list-style: none;
+
+                // 「号数: 13号」を1行に
+                li {
+                    display: flex;
+                    gap: 0.4em;
+                    margin: 0;
+                }
+
+                p {
+                    margin: 0;
+                }
+
+                strong {
+                    font-weight: normal;
+                }
+            }
+
+            // 金額のある行のうち、いちばん下の行(=合計金額)を目立たせる
+            // (「決済方法」などが合計の下に来ても影響しない)
+            tfoot tr:has(.woocommerce-Price-amount):not(:has(~ tr .woocommerce-Price-amount)) {
+                th {
+                    color: $color-black;
+                    font-size: $font-size-base;
+                }
+
+                td {
+                    font-size: $font-size-large;
+                    font-weight: 500;
+                }
+
+                th,
+                td {
+                    border-bottom: none;
+                }
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 請求先・配送先住所
+    // ----------------------------------------------------------------------
+    .woocommerce-columns--addresses {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: $space-md;
+
+        // 配送先がない(請求先だけ)ときは1カラム
+        &:has(.woocommerce-column:only-child) {
+            grid-template-columns: 1fr;
+        }
+
+        .woocommerce-column {
+            float: none;
+            width: auto;
+            padding: $space-md $space-lg $space-lg;
+            background-color: $color-cream;
+        }
+
+        .woocommerce-column__title {
+            margin-top: 0;
+        }
+
+        address {
+            font-style: normal;
+            font-size: $font-size-small;
+            line-height: 1.9;
+            overflow-wrap: anywhere;
+        }
+
+        .woocommerce-customer-details--phone,
+        .woocommerce-customer-details--email {
+            margin: 4px 0 0;
+            font-size: $font-size-small;
+        }
+    }
+
+    // 「買い物を続ける」ボタン(functions.php のフックで出力)
+    .thankyou-actions {
+        margin: $space-xl 0 0;
+        text-align: center;
+    }
+}
+
+// --------------------------------------------------------------------------
+// スマホ対応
+// --------------------------------------------------------------------------
+@media (max-width: $breakpoint-md) {
+    .woocommerce-order-received {
+        .woocommerce-thankyou-order-received {
+            font-size: 16px;
+        }
+
+        ul.order_details,
+        .woocommerce-columns--addresses {
+            grid-template-columns: 1fr;
+        }
+
+        .thankyou-actions .home-btn {
+            width: 100%;
+        }
+    }
+}

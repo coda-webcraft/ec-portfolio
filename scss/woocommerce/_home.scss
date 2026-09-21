@@ -1,0 +1,419 @@
+// ==========================================================================
+// Home (トップページ)
+// ==========================================================================
+
+// --- トップページ専用のナチュラル系カラー(既存変数と被らないよう !default) ---
+$color-cream: #faf6f0 !default;
+$color-beige: #efe6da !default;
+$color-brown: #6b5a4a !default;
+
+// セクション共通の余白(既存の $space-* があればそちらに置き換えてOK)
+$home-section-space: 96px !default;
+$home-section-space-sp: 56px !default;
+
+// --------------------------------------------------------------------------
+// ボタン
+// --------------------------------------------------------------------------
+.home-btn {
+    display: inline-block;
+    min-width: 220px;
+    padding: 14px 32px;
+    border: 1px solid $color-brown;
+    background-color: $color-brown;
+    color: $color-white;
+    font-family: $font-en, $font-jp;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background-color: $color-accent;
+        border-color: $color-accent;
+        color: $color-white;
+    }
+
+    &--outline {
+        background-color: transparent;
+        color: $color-brown;
+
+        &:hover {
+            background-color: $color-brown;
+            border-color: $color-brown;
+            color: $color-white;
+        }
+    }
+}
+
+// --------------------------------------------------------------------------
+// セクション共通
+// --------------------------------------------------------------------------
+.home-section {
+    padding: $home-section-space 0;
+
+    &__inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 $space-lg;
+    }
+
+    &__head {
+        margin-bottom: 48px;
+        text-align: center;
+    }
+
+    &__en {
+        margin: 0 0 8px;
+        color: $color-gray-mid;
+        font-family: $font-en, $font-jp;
+        font-size: $font-size-small;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+    }
+
+    &__title {
+        margin: 0;
+        color: $color-brown;
+        font-family: $font-en, $font-jp;
+        font-size: 28px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+    }
+
+    &__more {
+        margin: 48px 0 0;
+        text-align: center;
+    }
+}
+
+// --------------------------------------------------------------------------
+// 1. メインビジュアル
+// --------------------------------------------------------------------------
+.home-hero {
+    background-color: $color-cream;
+
+    &__inner {
+        display: flex;
+        align-items: center;
+        gap: $space-xl;
+        max-width: 1200px;
+        min-height: 560px;
+        margin: 0 auto;
+        padding: $space-xl $space-lg;
+    }
+
+    &__body {
+        flex: 1 1 50%;
+    }
+
+    &__en {
+        margin: 0 0 16px;
+        color: $color-gray-mid;
+        font-family: $font-en, $font-jp;
+        font-size: $font-size-small;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+    }
+
+    &__title {
+        margin: 0 0 24px;
+        color: $color-brown;
+        font-family: $font-en, $font-jp;
+        font-size: 40px;
+        font-weight: 500;
+        line-height: 1.6;
+        letter-spacing: 0.06em;
+    }
+
+    &__text {
+        margin: 0 0 40px;
+        line-height: 2;
+    }
+
+    // 画像がなくても色面として成立させる
+    &__visual {
+        flex: 1 1 50%;
+        aspect-ratio: 8 / 9;
+        max-height: 560px;
+        background-color: $color-beige;
+        overflow: hidden;
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+}
+
+// --------------------------------------------------------------------------
+// 2. カテゴリー導線
+// --------------------------------------------------------------------------
+.home-category {
+    &__list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: $space-lg;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    &__link {
+        display: block;
+        color: $color-brown;
+        text-decoration: none;
+
+        &:hover {
+            .home-category__image img {
+                transform: scale(1.05);
+            }
+        }
+    }
+
+    &__image {
+        display: block;
+        aspect-ratio: 1 / 1;
+        margin-bottom: 16px;
+        background-color: $color-beige;
+        overflow: hidden;
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+    }
+
+    &__name {
+        display: block;
+        font-family: $font-en, $font-jp;
+        text-align: center;
+        letter-spacing: 0.1em;
+    }
+}
+
+// --------------------------------------------------------------------------
+// 3. 新着商品
+// --------------------------------------------------------------------------
+.home-products {
+    background-color: $color-cream;
+
+    &__list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: $space-lg;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    &__link {
+        display: block;
+        color: $color-black;
+        text-decoration: none;
+
+        &:hover {
+            .home-products__name {
+                color: $color-accent;
+            }
+        }
+    }
+
+    &__image {
+        display: block;
+        margin-bottom: 12px;
+        background-color: $color-beige;
+        overflow: hidden;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    &__name {
+        display: block;
+        margin-bottom: 4px;
+        font-family: $font-en, $font-jp;
+        font-size: $font-size-small;
+        line-height: 1.6;
+        transition: color 0.2s ease;
+    }
+
+    &__price {
+        display: block;
+        color: $color-gray-mid;
+        font-family: $font-en, $font-jp;
+        font-size: $font-size-small;
+    }
+}
+
+// --------------------------------------------------------------------------
+// 4. ブランドストーリー
+// --------------------------------------------------------------------------
+.home-story {
+    &__inner {
+        max-width: 760px;
+    }
+
+    &__body {
+        word-break: auto-phrase;
+        text-wrap: pretty;
+        line-height: 2.2;
+        text-align: center;
+
+        p {
+            margin: 0 0 1.5em;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+// --------------------------------------------------------------------------
+// 5. 特徴
+// --------------------------------------------------------------------------
+.home-feature {
+    padding-top: 0;
+
+    &__list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: $space-lg;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    &__item {
+        padding: $space-lg;
+        background-color: $color-cream;
+        text-align: center;
+    }
+
+    &__num {
+        margin: 0 0 8px;
+        color: $color-gray-mid;
+        font-family: $font-en, $font-jp;
+        font-size: $font-size-small;
+        letter-spacing: 0.2em;
+    }
+
+    &__title {
+        margin: 0 0 12px;
+        color: $color-brown;
+        font-family: $font-en, $font-jp;
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+    }
+
+    &__text {
+        margin: 0;
+        font-size: $font-size-small;
+        line-height: 1.9;
+    }
+}
+
+// --------------------------------------------------------------------------
+// スマホ対応
+// --------------------------------------------------------------------------
+@media (max-width: $breakpoint-md) {
+    .home-section {
+        padding: $home-section-space-sp 0;
+
+        &__inner {
+            padding: 0 $space-md;
+        }
+
+        &__head {
+            margin-bottom: 32px;
+        }
+
+        &__title {
+            font-size: 22px;
+        }
+
+        &__more {
+            margin-top: 32px;
+        }
+    }
+
+    .home-hero {
+        &__inner {
+            flex-direction: column-reverse;
+            gap: $space-lg;
+            min-height: 0;
+            padding: $space-lg $space-md $space-xl;
+        }
+
+        &__body {
+            width: 100%;
+            text-align: center;
+        }
+
+        &__title {
+            font-size: 26px;
+        }
+
+        &__text {
+            margin-bottom: 32px;
+        }
+
+        &__visual {
+            flex: none;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+        }
+    }
+
+    .home-btn {
+        box-sizing: border-box; // ← 追加
+        min-width: 0;
+        width: 100%;
+    }
+
+    .home-category__list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: $space-md;
+    }
+
+    .home-products__list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: $space-md;
+    }
+
+    .home-story__body {
+        text-align: left;
+        word-break: auto-phrase;
+        text-wrap: pretty;
+    }
+
+    .home-feature {
+        &__list {
+            grid-template-columns: 1fr;
+            gap: $space-md;
+        }
+
+        &__text {
+            word-break: auto-phrase;
+            text-wrap: pretty;
+        }
+    }
+}
+
+// PC では改行しない <br class="u-br-sp"> 用(既存のユーティリティがあれば不要)
+.u-br-sp {
+    display: none;
+
+    @media (max-width: $breakpoint-md) {
+        display: inline;
+    }
+}

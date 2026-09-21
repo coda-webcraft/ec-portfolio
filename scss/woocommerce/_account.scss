@@ -1,0 +1,788 @@
+// ==========================================================================
+// WooCommerce / My Account (マイアカウント・ログイン・新規登録)
+//   ※ body.woocommerce-account でスコープ
+// ==========================================================================
+
+// 共通パーツ(ボタン)
+@mixin account-button {
+    display: inline-block;
+    box-sizing: border-box;
+    min-height: 44px;
+    padding: 0 28px;
+    border: 1px solid $color-brown;
+    background-color: $color-brown;
+    color: $color-white;
+    font-family: $font-en, $font-jp;
+    font-size: $font-size-small;
+    letter-spacing: 0.1em;
+    line-height: 42px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background-color: transparent;
+        color: $color-brown;
+    }
+}
+
+@mixin account-button-outline {
+    @include account-button;
+    background-color: transparent;
+    color: $color-brown;
+
+    &:hover {
+        background-color: $color-brown;
+        color: $color-white;
+    }
+}
+
+.woocommerce-account {
+    // ----------------------------------------------------------------------
+    // ページ見出し・枠
+    // ----------------------------------------------------------------------
+    h1:not(.site-title) {
+        margin: $space-xl auto $space-lg;
+        padding: 0 $space-lg;
+        color: $color-brown;
+        font-family: $font-en, $font-jp;
+        font-size: 28px;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-align: center;
+    }
+
+    .woocommerce {
+        box-sizing: border-box;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 $space-lg $space-xl;
+    }
+
+    // 金額などのリンク色(青・紫にならないように)
+    .woocommerce :where(a:not(.button):not(.woocommerce-button):not(.home-btn)) {
+        color: $color-brown; // :where() で詳細度を 0 にして、下のメニュー・ボタンの色指定が必ず勝つようにする
+    }
+
+    // ----------------------------------------------------------------------
+    // 通知(メッセージ・エラー)
+    // ----------------------------------------------------------------------
+    .woocommerce-message,
+    .woocommerce-info,
+    .woocommerce-error {
+        margin: 0 0 $space-lg;
+        padding: $space-md $space-lg;
+        border-left: 3px solid $color-brown;
+        background-color: $color-cream;
+        color: $color-black;
+        font-size: $font-size-small;
+        line-height: 1.8;
+        list-style: none;
+        word-break: auto-phrase;
+    }
+
+    .woocommerce-error {
+        border-left-color: #b3564a;
+    }
+
+    // ----------------------------------------------------------------------
+    // ログイン後: 左メニュー + 右コンテンツ
+    // ----------------------------------------------------------------------
+    .woocommerce:has(.woocommerce-MyAccount-navigation) {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 0 $space-xl;
+        align-items: start;
+
+        // 通知は横いっぱいに
+        > .woocommerce-notices-wrapper {
+            grid-column: 1 / -1;
+        }
+    }
+
+    .woocommerce-MyAccount-navigation {
+        float: none;
+        width: auto;
+        position: sticky;
+        top: $space-lg;
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            border: 1px solid $color-border;
+            background-color: $color-white;
+        }
+
+        li {
+            margin: 0;
+
+            + li {
+                border-top: 1px solid $color-border;
+            }
+
+            a {
+                display: block;
+                padding: 14px $space-md;
+                color: $color-brown;
+                font-family: $font-en, $font-jp;
+                font-size: $font-size-small;
+                letter-spacing: 0.06em;
+                text-decoration: none;
+                transition: background-color 0.2s ease;
+
+                &:hover {
+                    background-color: $color-cream;
+                }
+            }
+
+            &.is-active a,
+            &.is-active a:hover {
+                background-color: $color-brown;
+                color: $color-white;
+            }
+        }
+    }
+
+    .woocommerce-MyAccount-content {
+        float: none;
+        width: auto;
+        min-width: 0;
+        color: $color-black;
+        font-size: $font-size-base;
+        line-height: 1.9;
+
+        > p {
+            margin: 0 0 $space-md;
+            word-break: auto-phrase;
+            text-wrap: pretty;
+        }
+
+        // 「こんにちは○○さん(ログアウト)」
+        > p:first-of-type {
+            padding: $space-md $space-lg;
+            background-color: $color-cream;
+        }
+
+        h2,
+        h3 {
+            margin: 0 0 $space-md;
+            color: $color-brown;
+            font-family: $font-en, $font-jp;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+        }
+
+        a:hover {
+            text-decoration: none;
+            opacity: 0.7;
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 注文履歴
+    // ----------------------------------------------------------------------
+    table.woocommerce-orders-table,
+    table.account-orders-table {
+        width: 100%;
+        border-collapse: collapse;
+        border: none;
+        font-size: $font-size-small;
+
+        th,
+        td {
+            padding: 14px $space-sm;
+            border: none;
+            border-bottom: 1px solid $color-border;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        thead th {
+            color: $color-gray-mid;
+            font-weight: normal;
+            letter-spacing: 0.1em;
+            white-space: nowrap;
+        }
+
+        tbody th {
+            font-weight: 500;
+        }
+
+        // 「表示」ボタン
+        .button,
+        .woocommerce-button {
+            @include account-button-outline;
+            min-height: 36px;
+            padding: 0 16px;
+            line-height: 34px;
+            white-space: nowrap;
+        }
+    }
+
+    // 「もっと見る」等のページ送り
+    .woocommerce-pagination {
+        margin-top: $space-md;
+
+        .button {
+            @include account-button-outline;
+        }
+    }
+
+    // 注文がないとき
+    .woocommerce-message--info .button,
+    .woocommerce-info .button {
+        @include account-button-outline;
+        float: none;
+        margin-right: $space-md;
+    }
+
+    // ボタン付きのお知らせは、ボタンと文章を横並び・縦中央に
+    .woocommerce-info:has(.button),
+    .woocommerce-message:has(.button) {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: $space-sm 0;
+    }
+
+    // ----------------------------------------------------------------------
+    // 注文の詳細(注文履歴の「表示」から開くページ)
+    // ----------------------------------------------------------------------
+    // 「注文番号74は2026-09-21に承りました。現在処理中です。」の黄色いマーカーを消す
+    .woocommerce-MyAccount-content mark {
+        background: none;
+        color: $color-brown;
+        font-weight: 500;
+    }
+
+    .woocommerce-order-details,
+    .woocommerce-customer-details {
+        margin-top: $space-lg;
+    }
+
+    .woocommerce-order-details__title,
+    .woocommerce-column__title {
+        margin: 0 0 $space-md;
+    }
+
+    table.woocommerce-table--order-details,
+    table.order_details {
+        width: 100%;
+        margin: 0 0 $space-lg;
+        border-collapse: collapse;
+        border: none;
+        font-size: $font-size-small;
+        line-height: 1.7;
+
+        th,
+        td {
+            padding: 14px $space-sm;
+            border: none;
+            border-bottom: 1px solid $color-border;
+            background: none;
+            color: $color-black;
+            font-weight: normal;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        thead th {
+            color: $color-gray-mid;
+            letter-spacing: 0.1em;
+            white-space: nowrap;
+        }
+
+        // 金額の列は右寄せ
+        thead th:last-child,
+        tbody td:last-child,
+        tfoot td {
+            text-align: right;
+        }
+
+        .product-name {
+            a {
+                color: $color-brown;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                    opacity: 1;
+                }
+            }
+
+            .product-quantity {
+                margin-left: 4px;
+                color: $color-gray-mid;
+                font-weight: normal;
+            }
+        }
+
+        // バリエーション(号数・カラーなど)を「号数: 13号」の1行に
+        .wc-item-meta,
+        dl.variation {
+            margin: 4px 0 0;
+            padding: 0;
+            color: $color-gray-mid;
+            list-style: none;
+
+            li {
+                display: flex;
+                gap: 0.4em;
+                margin: 0;
+            }
+
+            p {
+                margin: 0;
+            }
+
+            strong,
+            .wc-item-meta-label {
+                font-weight: normal;
+            }
+        }
+
+        // 小計・送料・合計金額・決済方法
+        tfoot th {
+            color: $color-gray-mid;
+            white-space: nowrap;
+        }
+
+        // 金額のある行のうち、いちばん下(=合計金額)を目立たせる
+        tfoot tr:has(.woocommerce-Price-amount):not(:has(~ tr .woocommerce-Price-amount)) {
+            th {
+                color: $color-black;
+                font-size: $font-size-base;
+            }
+
+            td {
+                font-size: $font-size-large;
+                font-weight: 500;
+            }
+        }
+    }
+
+    // 「注文をもう一度」ボタン
+    .order-again .button {
+        @include account-button-outline;
+    }
+
+    // 請求先・お届け先住所
+    .woocommerce-customer-details .woocommerce-columns--addresses {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: $space-md;
+
+        &:has(.woocommerce-column:only-child) {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .woocommerce-column {
+            float: none;
+            width: auto;
+            padding: $space-md $space-lg $space-lg;
+            background-color: $color-cream;
+        }
+
+        .woocommerce-column__title {
+            font-size: 16px;
+        }
+
+        address {
+            border: none;
+            padding: 0;
+            font-size: $font-size-small;
+            font-style: normal;
+            line-height: 1.9;
+            overflow-wrap: anywhere;
+        }
+
+        .woocommerce-customer-details--phone,
+        .woocommerce-customer-details--email {
+            margin: 4px 0 0;
+        }
+    }
+
+    // 注文メモ(ショップからの連絡)
+    .woocommerce-OrderUpdates {
+        margin: 0 0 $space-lg;
+        padding: 0;
+        list-style: none;
+
+        .woocommerce-OrderUpdate {
+            margin: 0 0 $space-sm;
+            padding: $space-md;
+            background-color: $color-cream;
+            font-size: $font-size-small;
+
+            p {
+                margin: 0;
+            }
+        }
+
+        .woocommerce-OrderUpdate-meta {
+            color: $color-gray-mid;
+            font-size: 12px;
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 住所
+    // ----------------------------------------------------------------------
+    .woocommerce-Addresses {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: $space-md;
+
+        .woocommerce-Address {
+            float: none;
+            width: auto;
+            padding: $space-md $space-lg $space-lg;
+            background-color: $color-cream;
+        }
+
+        .woocommerce-Address-title {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: $space-sm;
+            margin-bottom: $space-sm;
+
+            h2,
+            h3 {
+                margin: 0;
+            }
+
+            .edit {
+                color: $color-brown;
+                font-size: $font-size-small;
+                text-decoration: underline;
+                white-space: nowrap;
+            }
+        }
+
+        address {
+            font-style: normal;
+            font-size: $font-size-small;
+            line-height: 1.9;
+            overflow-wrap: anywhere;
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // フォーム(アカウント詳細・住所編集・ログイン・登録・パスワード再設定)
+    // ----------------------------------------------------------------------
+    form.woocommerce-EditAccountForm,
+    form.edit-account,
+    .woocommerce-address-fields,
+    form.woocommerce-form-login,
+    form.woocommerce-form-register,
+    form.lost_reset_password {
+        .form-row,
+        .woocommerce-form-row {
+            float: none;
+            width: 100%;
+            margin: 0 0 $space-md;
+            padding: 0;
+        }
+
+        // 姓・名などを2列に並べる設定は解除して縦並びに
+        .form-row-first,
+        .form-row-last {
+            float: none;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: $color-brown;
+            font-size: $font-size-small;
+            letter-spacing: 0.06em;
+            line-height: 1.6;
+        }
+
+        .required {
+            color: #b3564a;
+            text-decoration: none;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="password"],
+        input[type="number"],
+        select,
+        textarea {
+            display: block;
+            box-sizing: border-box;
+            width: 100%;
+            min-height: 44px;
+            padding: 8px 12px;
+            border: 1px solid $color-border;
+            border-radius: 0;
+            background-color: $color-white;
+            color: $color-black;
+            font-family: $font-en, $font-jp;
+            font-size: $font-size-base;
+            line-height: 1.6;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: 1px solid $color-brown;
+            border-color: $color-brown;
+        }
+
+        // 入力欄の下の補足(「表示名はアカウント詳細に…」など)
+        em,
+        .description {
+            display: block;
+            margin-top: 6px;
+            color: $color-gray-mid;
+            font-size: $font-size-small;
+            font-style: normal;
+            line-height: 1.7;
+        }
+
+        // パスワード変更のまとまり
+        fieldset {
+            margin: $space-lg 0 $space-md;
+            padding: $space-md $space-lg $space-sm;
+            border: 1px solid $color-border;
+
+            legend {
+                padding: 0 $space-sm;
+                color: $color-brown;
+                font-size: $font-size-base;
+                letter-spacing: 0.08em;
+            }
+        }
+
+        // 目のアイコン(パスワード表示切替)は使わない
+        .show-password-input {
+            display: none;
+        }
+
+        // 保存・ログイン・登録ボタン
+        button[type="submit"],
+        .woocommerce-Button,
+        .woocommerce-button,
+        .button {
+            @include account-button;
+            float: none;
+            width: 100%;
+            min-height: 48px;
+            line-height: 46px;
+        }
+    }
+
+    // 「ログイン状態を保存する」
+    .woocommerce-form__label-for-checkbox {
+        display: flex !important;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 $space-md;
+        cursor: pointer;
+
+        input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            accent-color: $color-brown;
+        }
+    }
+
+    .woocommerce-LostPassword,
+    .lost_password {
+        margin: $space-md 0 0;
+        font-size: $font-size-small;
+        text-align: center;
+
+        a {
+            text-decoration: underline;
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // ログイン前: ログイン / 新規登録
+    // ----------------------------------------------------------------------
+    #customer_login {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: $space-lg;
+        align-items: start;
+
+        // WooCommerce 標準の float 2 カラムを解除
+        .u-column1,
+        .u-column2,
+        .col-1,
+        .col-2 {
+            float: none;
+            width: auto;
+            padding: $space-lg;
+            background-color: $color-cream;
+        }
+
+        h2 {
+            margin: 0 0 $space-md;
+            color: $color-brown;
+            font-family: $font-en, $font-jp;
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-align: center;
+        }
+
+        // 登録フォームの案内文
+        .woocommerce-privacy-policy-text p,
+        form.register > p {
+            color: $color-gray-mid;
+            font-size: $font-size-small;
+            line-height: 1.8;
+        }
+
+        // フォームの枠線を消す(外側のカードだけにする)
+        form.woocommerce-form {
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+    }
+
+    // ログインが1つだけのとき(新規登録オフ)は中央寄せ
+    #customer_login:not(:has(.u-column2)) {
+        grid-template-columns: minmax(0, 480px);
+        justify-content: center;
+    }
+
+    // 新規登録がオフのとき: ログインフォームだけが .woocommerce の直下に出る
+    // (#customer_login が無いので、ここでカード風に整える)
+    .woocommerce > h2 {
+        max-width: 480px;
+        margin: 0 auto $space-md;
+        color: $color-brown;
+        font-family: $font-en, $font-jp;
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-align: center;
+    }
+
+    .woocommerce > form.woocommerce-form-login {
+        box-sizing: border-box;
+        max-width: 480px;
+        margin: 0 auto;
+        padding: $space-lg;
+        border: none;
+        background-color: $color-cream;
+    }
+
+    // パスワード再設定ページ
+    .woocommerce-ResetPassword,
+    form.lost_reset_password {
+        max-width: 480px;
+        margin: 0 auto;
+        padding: $space-lg;
+        background-color: $color-cream;
+
+        > p:first-child {
+            margin: 0 0 $space-md;
+            font-size: $font-size-small;
+            line-height: 1.8;
+            word-break: auto-phrase;
+        }
+    }
+
+    // ダウンロード商品などの汎用ボタン
+    .woocommerce-MyAccount-content .button:not(.woocommerce-button) {
+        @include account-button-outline;
+    }
+}
+
+// --------------------------------------------------------------------------
+// スマホ対応
+// --------------------------------------------------------------------------
+@media (max-width: $breakpoint-md) {
+    .woocommerce-account {
+        h1:not(.site-title) {
+            margin: $space-lg auto $space-md;
+            padding: 0 $space-md;
+            font-size: 22px;
+        }
+
+        .woocommerce {
+            padding: 0 $space-md $space-lg;
+        }
+
+        // メニューは上に。横スクロールできるタブ風に
+        .woocommerce:has(.woocommerce-MyAccount-navigation) {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 0;
+        }
+
+        .woocommerce-MyAccount-navigation {
+            position: static;
+            margin-bottom: $space-lg;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+
+            ul {
+                display: flex;
+                width: max-content;
+                min-width: 100%;
+            }
+
+            li {
+                flex: 0 0 auto;
+
+                + li {
+                    border-top: none;
+                    border-left: 1px solid $color-border;
+                }
+
+                a {
+                    padding: 12px $space-md;
+                    white-space: nowrap;
+                }
+            }
+        }
+
+        .woocommerce-MyAccount-content > p:first-of-type {
+            padding: $space-md;
+        }
+
+        .woocommerce-Addresses,
+        .woocommerce-customer-details .woocommerce-columns--addresses,
+        #customer_login {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        #customer_login {
+            .u-column1,
+            .u-column2,
+            .col-1,
+            .col-2 {
+                padding: $space-md;
+            }
+        }
+
+        // 注文履歴の表は、枠の中だけ横スクロール
+        .woocommerce-MyAccount-content:has(table.woocommerce-orders-table) {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table.woocommerce-orders-table {
+            min-width: 520px;
+        }
+
+        form.lost_reset_password,
+        .woocommerce-ResetPassword {
+            padding: $space-md;
+        }
+    }
+}

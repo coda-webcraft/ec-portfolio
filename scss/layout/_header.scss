@@ -1,0 +1,185 @@
+// ==========================================================================
+// Layout / Header
+// ==========================================================================
+
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: $space-md;
+    padding: $space-md $space-lg;
+    border-bottom: 1px solid $color-border;
+    background-color: $color-white;
+}
+
+.site-title {
+    margin: 0;
+    font-size: $font-size-large;
+    font-family: $font-en, $font-jp;
+    letter-spacing: $letter-spacing-heading;
+
+    a {
+        color: $color-black;
+        text-decoration: none;
+
+        &:hover {
+            color: $color-accent;
+        }
+    }
+}
+
+// ナビゲーション
+.header-nav {
+    &__list {
+        display: flex;
+        gap: $space-lg;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    a {
+        color: $color-black;
+        text-decoration: none;
+        font-size: $font-size-base;
+        font-family: $font-en, $font-jp;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: $color-accent;
+        }
+    }
+}
+
+// カート
+.header-cart {
+    &__link {
+        display: inline-flex;
+        align-items: center;
+        gap: $space-sm;
+        color: $color-black;
+        text-decoration: none;
+        font-size: $font-size-base;
+        font-family: $font-en, $font-jp;
+
+        &:hover {
+            color: $color-accent;
+        }
+    }
+
+    &__count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 20px;
+        height: 20px;
+        padding: 0 4px;
+        border-radius: 999px;
+        background-color: $color-brown; // $color-accent から変更
+        color: $color-white;
+        font-size: $font-size-small;
+        line-height: 1;
+    }
+}
+
+// ハンバーガーボタン(PCでは非表示)
+.header-toggle {
+    display: none;
+    position: relative;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    &__bar {
+        position: absolute;
+        left: 10px;
+        width: 24px;
+        height: 2px;
+        background-color: $color-black;
+        transition: transform 0.25s ease, opacity 0.2s ease;
+
+        &:nth-child(1) {
+            top: 14px;
+        }
+
+        &:nth-child(2) {
+            top: 21px;
+        }
+
+        &:nth-child(3) {
+            top: 28px;
+        }
+    }
+
+    // 開いているときは × に変形
+    &[aria-expanded="true"] {
+        .header-toggle__bar:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .header-toggle__bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .header-toggle__bar:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+    }
+}
+
+// --------------------------------------------------------------------------
+// スマホ対応(基本のスタイルより後ろに書くこと)
+//   1段目: ロゴ ・・・・・ カート ハンバーガー
+//   2段目: メニュー(開いたときだけ表示)
+// --------------------------------------------------------------------------
+@media (max-width: $breakpoint-md) {
+    .site-header {
+        gap: 0;
+        padding: $space-sm $space-md;
+    }
+
+    .site-title {
+        order: 1;
+        margin-right: auto;
+    }
+
+    .header-cart {
+        order: 2;
+        margin-right: $space-sm;
+    }
+
+    .header-toggle {
+        order: 3;
+        display: block;
+        margin-right: -10px; // 三本線を画面右の余白にそろえる
+    }
+
+    .header-nav {
+        order: 4;
+        display: none;
+        flex: 0 0 100%;
+        margin-top: $space-sm;
+
+        &__list {
+            flex-direction: column;
+            gap: 0;
+        }
+
+        li {
+            border-top: 1px solid $color-border;
+        }
+
+        a {
+            display: block;
+            padding: 14px 0;
+        }
+    }
+
+    .site-header.is-open .header-nav {
+        display: block;
+    }
+}
