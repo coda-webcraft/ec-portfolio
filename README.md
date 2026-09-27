@@ -3,7 +3,7 @@
 ハンドメイドアクセサリーを扱う架空のECサイトです。WordPress + WooCommerce のオリジナルテーマを一から制作しました。
 トップページから、商品一覧・商品詳細・カート・決済・注文完了・マイアカウントまで、購入の流れに関わる画面をすべてデザイン・実装しています。
 
-- デモサイト: http://ec-portfolio.local/
+- デモサイト: https://coda-webcraft.github.io/ec-portfolio/(※画面デザイン確認用の静的サイトです。カート追加・決済など動的な操作は行えません)
 - 制作期間: 2026年9月
 
 ![トップページ（PC / スマホ）](docs/screenshots/top.png)
@@ -83,20 +83,24 @@ WooCommerce の標準スタイルに頼らず、カート・チェックアウ�
 
 ```
 ec-portfolio-theme/
+├── docs/                    # GitHub Pages公開用（静的サイト）
+│   └── screenshots/         # README用スクリーンショット
+├── assets/
+│   └── js/nav.js            # ハンバーガーメニュー
+├── scss/
+│   ├── style.scss
+│   ├── foundation/          # 変数・リセットなど
+│   ├── layout/               # ヘッダー・フッター・404 など
+│   └── woocommerce/          # 商品・カート・チェックアウト・注文完了・マイアカウント
+├── woocommerce/              # WooCommerce標準テンプレートの上書き
+├── 404.php
+├── footer.php
+├── front-page.php            # トップページ
 ├── functions.php
 ├── header.php
-├── footer.php
-├── front-page.php          # トップページ
-├── archive-product.php     # ショップ / カテゴリー一覧
-├── 404.php
-├── style.css               # Sass から書き出し
-├── assets/
-│   └── js/nav.js           # ハンバーガーメニュー
-└── scss/
-    ├── style.scss
-    ├── foundation/         # 変数・リセットなど
-    ├── layout/             # ヘッダー・フッター・404 など
-    └── woocommerce/        # 商品・カート・チェックアウト・注文完了・マイアカウント
+├── index.php
+├── page.php
+└── style.css                 # Sass から書き出し
 ```
 
 ## セットアップ
@@ -123,5 +127,6 @@ sass --watch scss/style.scss:style.css
 
 **coda.**（フリーランス Web 制作）
 
-- Portfolio: http://my-portfolio.local/
+- GitHub: [@coda-webcraft](https://github.com/coda-webcraft)
 - Contact: coda.webcraft@gmail.com
+- 制作環境: Local（ローカル開発環境）
